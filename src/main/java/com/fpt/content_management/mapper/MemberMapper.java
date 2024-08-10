@@ -10,10 +10,18 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
     @Mapping(target = "contents", ignore = true)
+    @Mapping(target = "username", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "email", ignore = true)
     Member toMember (MemberUpdateRequestDto memberUpdateRequestDto);
 
+    @Mapping(target = "username", ignore = true)
+    @Mapping(target = "email", ignore = true)
     MemberResponseDto toMemberResponseDto (Member member);
 
     @Mapping(target = "contents", ignore = true)
+    @Mapping(target = "username", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "email", ignore = true)
     Member updateMember (@MappingTarget Member member, MemberUpdateRequestDto memberUpdateRequestDto);
 }

@@ -9,6 +9,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = MemberMapper.class)
 public interface ContentMapper {
+    @Mapping(target = "member", ignore = true)
     Content toContent (ContentCreateDto contentCreateDto);
 
     ContentResponseDto toContentResponseDto (Content content);
