@@ -1,0 +1,60 @@
+<div th:fragment="bar" class="col-3 pt-2 bg-body-tertiary min-vh-100 p-0 m-0">
+    <!-- search -->
+    <!-- <div class="container-fluid ml-0 w-100"> -->
+    <div class="mt-4 px-3" id="searchForm">
+        <form class="d-flex" role="search">
+            <input
+                    class="form-control w-100 border-dark"
+                    type="search"
+                    name="searchString"
+                    placeholder="Search"
+                    aria-label="Search"
+            />
+            <button class="btn btn-outline-dark d-flex align-items-center justify-content-center" type="submit" id="searchInput">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <!-- select content -->
+    <a th:href="@{/contents}" class="text-decoration-none text-black">
+        <div class="border-top border-bottom mt-4">
+            <div class="d-inline-flex gap-2 align-items-center pt-2 pb-2 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-columns" viewBox="0 0 16 16">
+                    <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm8.5 0v8H15V2zm0 9v3H15v-3zm-1-9H1v3h6.5zM1 14h6.5V6H1z"/>
+                </svg>
+                <div class="btn">View contents</div>
+            </div>
+        </div>
+    </a>
+
+    <a th:href="@{/contents/add}" class="text-decoration-none text-black">
+        <div class="border-bottom">
+            <div class="d-inline-flex gap-2 align-items-center pt-2 pb-2 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
+                    <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z"/>
+                    <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"/>
+                </svg>
+                <div class="btn">Add content</div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let searchForm = document.getElementById('searchForm');
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            handleSearch();
+        });
+    });
+
+    function handleSearch() {
+        let searchInput = document.querySelector('input[name="searchString"]').value;
+        console.log("Search value:", searchInput);
+    }
+</script>

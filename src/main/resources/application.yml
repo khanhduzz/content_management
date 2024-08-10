@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: content-management
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    show-sql: true
+
+  datasource:
+    url: jdbc:h2:mem:employee
+    driver-class-name: org.h2.Driver
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+application:
+  member:
+    default:
+      email: ${MEMBER_DEFAULT_USERNAME}
+      password: ${MEMBER_DEFAULT_PASSWORD}
+
+server:
+  servlet:
+    context-path: /
+  port: 8888
+
+#======================================
