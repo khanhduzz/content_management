@@ -36,7 +36,7 @@ public class ContentFilter {
     Integer pageNumber = 1;
 
     @Builder.Default
-    Integer pageSize = 1;
+    Integer pageSize = 5;
 
     public void setPageNumber (String pageNumber) {
         this.pageNumber = PageSortUtil.parsePageValue(pageNumber, 1);
