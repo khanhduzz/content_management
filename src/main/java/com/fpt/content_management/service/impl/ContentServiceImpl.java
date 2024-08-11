@@ -2,6 +2,7 @@ package com.fpt.content_management.service.impl;
 
 import com.fpt.content_management.dto.filter.ContentFilter;
 import com.fpt.content_management.dto.request.ContentCreateDto;
+import com.fpt.content_management.dto.request.ContentUpdateDto;
 import com.fpt.content_management.dto.response.ContentResponseDto;
 import com.fpt.content_management.entity.Content;
 import com.fpt.content_management.entity.Member;
@@ -55,11 +56,11 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     @Transactional
-    public ContentResponseDto updateContent(Long id, ContentCreateDto contentCreateDto) {
+    public ContentResponseDto updateContent(Long id, ContentUpdateDto contentUpdateDto) {
 
         Content content = contentRepository.findById(id)
                 .map(c -> {
-                    var contentUpdate = contentMapper.updateContent(c, contentCreateDto);
+                    var contentUpdate = contentMapper.updateContent(c, contentUpdateDto);
                     contentRepository.save(contentUpdate);
                     return contentUpdate;
                 })

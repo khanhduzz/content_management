@@ -1,6 +1,7 @@
 package com.fpt.content_management.mapper;
 
 import com.fpt.content_management.dto.request.ContentCreateDto;
+import com.fpt.content_management.dto.request.ContentUpdateDto;
 import com.fpt.content_management.dto.response.ContentResponseDto;
 import com.fpt.content_management.entity.Content;
 import org.mapstruct.Mapper;
@@ -15,5 +16,5 @@ public interface ContentMapper {
     ContentResponseDto toContentResponseDto (Content content);
 
     @Mapping(target = "member", ignore = true)
-    Content updateContent (@MappingTarget Content content, ContentCreateDto contentCreateDto);
+    Content updateContent (@MappingTarget Content content, ContentUpdateDto contentUpdateDto);
 }

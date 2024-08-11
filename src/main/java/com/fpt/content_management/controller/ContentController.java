@@ -2,6 +2,7 @@ package com.fpt.content_management.controller;
 
 import com.fpt.content_management.dto.filter.ContentFilter;
 import com.fpt.content_management.dto.request.ContentCreateDto;
+import com.fpt.content_management.dto.request.ContentUpdateDto;
 import com.fpt.content_management.dto.response.ContentResponseDto;
 import com.fpt.content_management.service.ContentService;
 import jakarta.validation.Valid;
@@ -31,8 +32,8 @@ public class ContentController {
     private static final String ACTIVE_TAB = "activeTab";
 
     @GetMapping()
-    public ModelAndView getContents (@ModelAttribute(MESSAGE) String message,
-                                     @Valid @ModelAttribute("contentFilter") ContentFilter contentFilter) {
+    public ModelAndView getContents(@ModelAttribute(MESSAGE) String message,
+                                    @Valid @ModelAttribute("contentFilter") ContentFilter contentFilter) {
         ModelAndView modelAndView = new ModelAndView("member/contents");
         modelAndView.addObject(MESSAGE, message);
         Page<ContentResponseDto> contents = contentService.getContents(contentFilter);
@@ -44,7 +45,7 @@ public class ContentController {
     }
 
     @GetMapping("/add")
-    public ModelAndView addContent () {
+    public ModelAndView addContent() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("addContent", new ContentCreateDto());
         modelAndView.setViewName(ADD_CONTENT);
@@ -53,17 +54,17 @@ public class ContentController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView getContent (@PathVariable("id") Long id) {
+    public ModelAndView getContent(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         ContentResponseDto contentResponseDto = contentService.getContent(id);
         modelAndView.addObject(CONTENT, contentResponseDto);
-        modelAndView.addObject("contentUpdate", new ContentCreateDto());
+        modelAndView.addObject("contentUpdate", new ContentUpdateDto());
         modelAndView.setViewName("member/edit-content");
         return modelAndView;
     }
 
     @PostMapping("/add")
-    public ModelAndView addContent(@Valid @ModelAttribute("addContent") ContentCreateDto addContent,
+    public ModelAndView addContent(@ModelAttribute("addContent") @Valid ContentCreateDto addContent,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
@@ -78,8 +79,9 @@ public class ContentController {
     }
 
     @PostMapping("/{id}")
-    public ModelAndView updateContent (@Valid @ModelAttribute("contentUpdate") ContentCreateDto contentUpdate,
-                                      @PathVariable("id") Long id,
+    public ModelAndView updateContent(@PathVariable("id") Long id,
+                                      @ModelAttribute("contentUpdate")
+                                      @Valid ContentUpdateDto contentUpdateDto,
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
@@ -88,15 +90,15 @@ public class ContentController {
             modelAndView.addObject(CONTENT, contentService.getContent(id));
             return modelAndView;
         }
-        contentService.updateContent(id, contentUpdate);
+        contentService.updateContent(id, contentUpdateDto);
         redirectAttributes.addFlashAttribute(MESSAGE, "Content updated successfully");
         modelAndView.setViewName(REDIRECT_CONTENT);
         return modelAndView;
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteContent (@PathVariable Long id,
-                                       RedirectAttributes redirectAttributes) {
+    public ModelAndView deleteContent(@PathVariable Long id,
+                                      RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         contentService.deleteContent(id);
         redirectAttributes.addFlashAttribute(MESSAGE, "Content deleted successfully");
