@@ -39,7 +39,6 @@ public class ContentServiceImpl implements ContentService {
 
         Content content = contentRepository.findContentByTitle(contentCreateDto.getTitle());
         if (content != null) {
-            System.out.println(content.toString());
             throw new ContentAlreadyExistException();
         }
 

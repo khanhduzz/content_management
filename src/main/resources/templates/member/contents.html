@@ -20,6 +20,9 @@
         <hr/>
         <div class="card">
             <div class="card-header">View All Contents</div>
+            <div th:if="${message != null && #strings.length(#strings.trim(message)) > 0}">
+                <p class="alert alert-success" th:text="${message}"></p>
+            </div>
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
@@ -38,7 +41,7 @@
                         <td class="text-center align-content-center col-3"
                             th:text="${#strings.length(e.getTitle()) > 20 ? e.getTitle().substring(0, 20) + '...' : e.getTitle()}"></td>
                         <td class="text-center align-content-center col-2"
-                            th:text="${#strings.length(e.getMember().username) > 20 ? e.getMember().username.substring(0, 20) + '...' : e.getMember().username}"></td>
+                            th:text="${#strings.length(e.getMember().getUsername()) > 20 ? e.getMember().getUsername().substring(0, 20) + '...' : e.getMember().getUsername()}"></td>
                         <td class="text-center align-content-center col-4"
                             th:text="${#strings.length(e.getBrief()) > 20 ? e.getBrief().substring(0, 20) + '...' : e.getBrief()}"></td>
                         <td class="text-center align-content-center col-3"

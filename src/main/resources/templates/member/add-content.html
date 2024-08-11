@@ -24,7 +24,7 @@
                 <form class="container" method="POST" th:action="@{/contents/add}" th:object="${addContent}">
                     <div class="form-group">
                         <label for="title">Title: </label>
-                        <input class="form-control" type="text" id="title" name="title"
+                        <input class="form-control" type="text" id="title" name="title" th:field="*{title}"
                                placeholder="Enter the title" required>
                         <div>
                             <div class="alert alert-warning" th:if="${#fields.hasErrors('title')}"
@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="brief">Brief: </label>
                         <textarea class="form-control" style="min-height: 150px" id="brief" name="brief"
-                                  required></textarea>
+                                  th:field="*{brief}" required></textarea>
                         <div>
                             <div class="alert alert-warning" th:if="${#fields.hasErrors('brief')}"
                                  th:errors="*{brief}"></div>
@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label for="fullContent">Content: </label>
                         <textarea class="form-control" style="min-height: 200px" id="fullContent" name="fullContent"
-                                  required></textarea>
+                                  th:field="*{fullContent}" required></textarea>
                         <div>
                             <div class="alert alert-warning" th:if="${#fields.hasErrors('fullContent')}"
                                  th:errors="*{fullContent}"></div>

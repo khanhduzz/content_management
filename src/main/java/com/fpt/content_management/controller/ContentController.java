@@ -25,7 +25,10 @@ public class ContentController {
     private final ContentService contentService;
 
     private static final String MESSAGE = "message";
+    private static final String CONTENT = "content";
     private static final String ADD_CONTENT = "member/add-content";
+    private static final String REDIRECT_CONTENT = "redirect:/contents";
+    private static final String ACTIVE_TAB = "activeTab";
 
     @GetMapping()
     public ModelAndView getContents (@ModelAttribute(MESSAGE) String message,
@@ -35,62 +38,69 @@ public class ContentController {
         Page<ContentResponseDto> contents = contentService.getContents(contentFilter);
         modelAndView.addObject("contents", contents);
         modelAndView.addObject("contentFilter", new ContentFilter());
-        modelAndView.addObject("content", new ContentCreateDto());
+        modelAndView.addObject(CONTENT, new ContentCreateDto());
+        modelAndView.addObject(ACTIVE_TAB, "contents");
         return modelAndView;
     }
 
     @GetMapping("/add")
     public ModelAndView addContent () {
-        ModelAndView modelAndView = new ModelAndView(ADD_CONTENT);
+        ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("addContent", new ContentCreateDto());
+        modelAndView.setViewName(ADD_CONTENT);
+        modelAndView.addObject(ACTIVE_TAB, "add");
         return modelAndView;
     }
 
     @GetMapping("/{id}")
-    public ModelAndView getContent (@PathVariable Long id) {
+    public ModelAndView getContent (@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         ContentResponseDto contentResponseDto = contentService.getContent(id);
-        modelAndView.addObject("content", contentResponseDto);
+        modelAndView.addObject(CONTENT, contentResponseDto);
         modelAndView.addObject("contentUpdate", new ContentCreateDto());
         modelAndView.setViewName("member/edit-content");
         return modelAndView;
     }
 
-    @PostMapping("/{id}")
-    public ModelAndView editContent (@PathVariable("id") Long id,
-                                     @Valid @ModelAttribute("contentUpdate") ContentCreateDto contentCreateDto,
-                                     BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("member/edit-content");
-        }
-        ContentResponseDto content = contentService.updateContent(id, contentCreateDto);
-        modelAndView.addObject("content", content);
-        modelAndView.setViewName("redirect:/contents");
-        return modelAndView;
-    }
-
     @PostMapping("/add")
-    public ModelAndView addContent(@ModelAttribute("addContent") @Valid ContentCreateDto addContent,
+    public ModelAndView addContent(@Valid @ModelAttribute("addContent") ContentCreateDto addContent,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(ADD_CONTENT);
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(MESSAGE, "Error when creating content");
-            modelAndView.setViewName(ADD_CONTENT);
+            return modelAndView;
         }
         contentService.addContent(addContent);
         redirectAttributes.addFlashAttribute(MESSAGE, "Content added successfully");
-        modelAndView.setViewName("redirect:/contents");
+        modelAndView.setViewName(REDIRECT_CONTENT);
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}")
+    public ModelAndView updateContent (@Valid @ModelAttribute("contentUpdate") ContentCreateDto contentUpdate,
+                                      @PathVariable("id") Long id,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("member/edit-content");
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject(CONTENT, contentService.getContent(id));
+            return modelAndView;
+        }
+        contentService.updateContent(id, contentUpdate);
+        redirectAttributes.addFlashAttribute(MESSAGE, "Content updated successfully");
+        modelAndView.setViewName(REDIRECT_CONTENT);
         return modelAndView;
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteContent (@PathVariable Long id) {
+    public ModelAndView deleteContent (@PathVariable Long id,
+                                       RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         contentService.deleteContent(id);
-        modelAndView.setViewName("redirect:/contents");
+        redirectAttributes.addFlashAttribute(MESSAGE, "Content deleted successfully");
+        modelAndView.setViewName(REDIRECT_CONTENT);
         return modelAndView;
     }
 }

@@ -15,7 +15,6 @@ public interface MemberMapper {
     @Mapping(target = "email", ignore = true)
     Member toMember (MemberUpdateRequestDto memberUpdateRequestDto);
 
-    @Mapping(target = "username", ignore = true)
     @Mapping(target = "email", ignore = true)
     MemberResponseDto toMemberResponseDto (Member member);
 

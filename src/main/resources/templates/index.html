@@ -14,16 +14,21 @@
 </head>
 <body>
 <div th:replace="~{header :: header}"></div>
-<p th:if="${message}" class="alert alert-success" th:text="${message}"></p>
 <div th:unless="${username == null}" class="container-fluid row">
     <div th:replace="~{bar :: bar}"></div>
     <div class="col-9 mt-5">
+        <div th:if="${message != null && #strings.length(#strings.trim(message)) > 0}">
+            <p class="alert alert-success" th:text="${message}"></p>
+        </div>
         <h2>How about your day?</h2>
         <p>BE HAPPY :)))</p>
     </div>
 </div>
 <div th:if="${username == null}" class="container-fluid row ms-5">
     <div class="col-9 mt-5">
+        <div th:if="${message != null && #strings.length(#strings.trim(message)) > 0}">
+            <p class="alert alert-success" th:text="${message}"></p>
+        </div>
         <h1>Welcome to content management system</h1>
         <div class="mt-4">
             <p>You do not have any account?</p>
